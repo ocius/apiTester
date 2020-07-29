@@ -1,58 +1,76 @@
-from Tests import *
-from time import sleep
+from Tests import run_tests
 from SES import send_email
 from jinja2 import Template
-from tabulate import tabulate
-from datetime import datetime
 
-TEMPLATE='''<html>
-	<head></head>
-	<body>
-		<h1>Ocius API Tests Failed</h1>
-		<table>
-			<tr>
-				<th>Test</th>
-				<th>Status</th>
-			</tr>
-            {% for title, status in tests %}
-			<tr>
-                {% if not title == 'Name' %}
-				<td>{{title}}</td>
-                {% endif %}
-				<td>{{status}}</td>
-			</tr>
-            {% endfor %}
-		</table>
-	</body>
-</html>'''
+TEMPLATE='''
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head> </head>
+    <body>
+        <h1> Ocius API Tests Failed </h1>
+       {% for test_group, tests in test_groups.items() %}
+            <h2> {{test_group}} </h2>
+            <table style="font-family: 'Arial'; border-collapse: collapse; border: 1px solid #eee; border-bottom: 2px solid rgb(18, 81, 146); box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);">
+                <tr>
+                    <th style="background: rgb(18, 81, 146); color: #fff;">
+                        Test
+                    </th>
+                    <th style="background: rgb(18, 81, 146); color: #fff;">
+                        Status
+                    </th>
+                </tr>
+           {% for title, status in tests %}
+                <tr>
+               {% if not title == 'Name' %}
+                    <td style="border: 1px solid #eee; padding: 12px 35px; border-collapse: collapse;">
+                        {{title}}
+                    </td>
+                    <td style="border: 1px solid #eee; padding: 12px 35px; border-collapse: collapse;">
+                        {{status}}
+                    </td>
+               {% else %}
+                    <td style="border: 1px solid #eee; padding: 12px 35px; border-collapse: collapse; font-weight: bold;">
+                        {{status}}
+                    </td>
+               {% endif %}
+                </tr>
+           {% endfor %}
+            </table>
+       {% endfor %}
+        <p> To manually check the response, copy and paste the below into a pretty printer</p>
+        <pre>
+            {{response}}
+        </pre>
+    </body>
+</html>
+'''
 
-def format_message_text(tests):
-    tests.insert(0,('Test', 'Status'))
-    return tabulate(tests)
 
-def format_message_html(tests):
-    tm=Template(TEMPLATE)
-    return tm.render(tests=tests)
+def format_message_html(test_groups, response):
+    tm = Template(TEMPLATE)
+    return tm.render(test_groups=test_groups, response=response)
+
 
 def handler(event, context):
-    ''' 
+    '''
     Main lambda event handler
     This checks the API and sends an email if a test does not
     return PASSED
     '''
-    test_results = run_tests()
-    for test, status in test_results:
-        if not test == 'Name' and status != 'PASSED':
-            message = format_message(tests)
-            send_email(message)
+    test_groups, API_response = run_tests()
+    for test_group in test_groups:
+        for test, status in test_groups[test_group]:
+            if not test == 'Name' and status != 'PASSED':
+                message_html = format_message_html(test_groups, API_response.json())
+                send_email(message_html, message_html)
+                return {'message': API_response.json()}
+    return {'message': 'All tests passed'}
 
-if __name__ == '__main__':
-    '''
-    Run this locally to get hourly terminal updates
-    '''
-    while True:
-        test_results = run_tests()
-        print(datetime.now().strftime("%m/%d, %H:%M:%S"))
-        print(format_message_text(test_results))
-        sleep(60*60)
 
+if __name__ == "__main__":
+    test_groups, API_response = run_tests()
+    message_html = format_message_html(test_groups, API_response.json())
+    with open('email.html', 'w') as f:
+        f.write(message_html)
+    print({'message': 'All tests passed'})
