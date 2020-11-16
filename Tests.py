@@ -7,7 +7,7 @@ import requests
 import xml.etree.ElementTree as ElementTree
 
 
-def test_verify_active_drones(live_api, list_robots) ->tuple:
+def test_verify_active_drones(live_api, list_robots) -> tuple:
     ''' verifies the API data matches up with the source API '''
     list_robots = ElementTree.fromstring(list_robots.text)
     drone_ids = [drone.get('robotid') for drone in list_robots.findall(
@@ -50,6 +50,9 @@ def test_drone_basic(drone) -> tuple:
     keys = set(['Name', 'Timestamp', 'Status'])
     if not keys.issubset(drone.keys()):
         return ('Basic', f'Missing {keys - set(drone.keys())}')
+    for key in drones:
+        if drones[key] == None:
+            return (f'{key}', 'null')
     return ('Basic', 'PASSED')
 
 
@@ -71,6 +74,8 @@ def test_drone_camera(drone) -> tuple:
         return ('Coordinates', 'Missing props in drone')
     if not 'Cameras' in drone['Props']:
         return ('Cameras', 'Missing Cameras in props')
+    if drone['Props']['Cameras'] is None:
+        return ('Cameras', 'null')
     if len(drone['Props']['Cameras']) < 1:
         return ('Cameras', 'No available Cameras')
     return ('Cameras', 'PASSED')
