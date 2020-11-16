@@ -4,6 +4,7 @@ Code from https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-p
 '''
 import boto3
 from botocore.exceptions import ClientError
+from APIConstants import *
 
 # Replace sender@example.com with your "From" address.
 # This address must be verified with Amazon SES.
@@ -11,7 +12,7 @@ SENDER = "kevin.chan@ocius.com.au"
 
 # Replace recipient@example.com with a "To" address. If your account
 # is still in the sandbox, this address must be verified.
-RECIPIENT = "kevin.chan@ocius.com.au"
+RECIPIENT = ["kevin.chan@ocius.com.au", "tom@ocius.com.au"]
 
 # Specify a configuration set. If you do not want to use a configuration
 # set, comment the following variable, and the
