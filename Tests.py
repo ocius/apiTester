@@ -50,8 +50,8 @@ def test_drone_basic(drone) -> tuple:
     keys = set(['Name', 'Timestamp', 'Status'])
     if not keys.issubset(drone.keys()):
         return ('Basic', f'Missing {keys - set(drone.keys())}')
-    for key in drones:
-        if drones[key] == None:
+    for key in drone.keys():
+        if drone[key] == None:
             return (f'{key}', 'null')
     return ('Basic', 'PASSED')
 
