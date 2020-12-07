@@ -12,7 +12,7 @@ This lambda function is used to test the availability and validity of OCIUS Api.
 # Development
 ## Architecture
 ### Lambda Function.py
-Contains the main program, requests data from https://api.ocius.com.au/drones, validates the data using test.py. If a single test has failed SES.py is used to send a summary report.
+Contains the main program, requests data from all the endpoints, validates the responses using test.py. If a single test has failed SES.py is used to send a summary report.
 
 ### SES.py
 Defines how emails are sent using AWS's Boto3. Contains hardcoded email subject, recipients, AWS region and sender informaiton.
