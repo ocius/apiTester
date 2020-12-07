@@ -2,11 +2,11 @@
 
 This lambda function is used to test the availability and validity of OCIUS Api. If a single test fails an email is sent to the recipients defined in SES.py.
 
-| API Endpoint                                                    | Testing Depth                      |
-| --------------------------------------------------------------- | ---------------------------------- |
-| https://api.ocius.com.au/drones                                 | Checks the API provides valid data |
-| https://usvna.ocius.com.au/usvna/oc_server?mavstatus&nodeflate  | checks the response status is 200  |
-| https://usvna.ocius.com.au/usvna/oc_server?listrobots&nodeflate | checks the response status is 200  |
+| API Endpoint                                                    | Testing Depth                |
+| --------------------------------------------------------------- | ---------------------------- |
+| https://api.ocius.com.au/drones                                 | Validates response data      |
+| https://usvna.ocius.com.au/usvna/oc_server?mavstatus&nodeflate  | Checks endpoint for HTTP 200 |
+| https://usvna.ocius.com.au/usvna/oc_server?listrobots&nodeflate | Checks endpoint for HTTP 200 |
 
 
 # Development
