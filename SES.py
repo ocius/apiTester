@@ -12,7 +12,7 @@ SENDER = "kevin.chan@ocius.com.au"
 
 # Replace recipient@example.com with a "To" address. If your account
 # is still in the sandbox, this address must be verified.
-RECIPIENT = ["kevin.chan@ocius.com.au", "tom@ocius.com.au"]
+RECIPIENTS = ["kevin.chan@ocius.com.au", "tom@ocius.com.au"]
 
 # Specify a configuration set. If you do not want to use a configuration
 # set, comment the following variable, and the
@@ -38,9 +38,7 @@ def send_email(message_html, message_text):
         # Provide the contents of the email.
         response = client.send_email(
             Destination={
-                'ToAddresses': [
-                    RECIPIENT,
-                ],
+                'ToAddresses': RECIPIENTS,
             },
             Message={
                 'Body': {
