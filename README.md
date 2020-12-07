@@ -34,7 +34,7 @@ Defines the harcoded endpoints to test
 
 ## AWS Lambda (creating a new lambda)
 
-1. Check the email address kevin.chan@ocius.com.au is a verified SES email
+1. Check the recpient email addresses are verified SES emails
 2. Install into AWS Lambda using the IAM.json policy (to allow access to SES)
 3. Create a rule in cloudwatch to execute this lambda function every hour
 4. Profit
