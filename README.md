@@ -25,7 +25,7 @@ Defines the harcoded endpoints to test
 
 # Deployment
 
-## AWS Lambda (updating rxisting lambda)
+## AWS Lambda (updating existing lambda)
 
 1. Edit the code
 2. Add any additional dependencies to bundle.sh
