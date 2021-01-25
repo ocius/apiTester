@@ -12,7 +12,7 @@ SENDER = "kevin.chan@ocius.com.au"
 
 # Replace recipient@example.com with a "To" address. If your account
 # is still in the sandbox, this address must be verified.
-RECIPIENTS = ["kevin.chan@ocius.com.au", "tom@ocius.com.au"]
+RECIPIENTS = ["kevin.chan@ocius.com.au", "lorenzoleesolano@gmail.com"]
 
 # Specify a configuration set. If you do not want to use a configuration
 # set, comment the following variable, and the
